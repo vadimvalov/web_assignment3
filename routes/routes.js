@@ -9,6 +9,20 @@ const bcrypt = require("bcrypt");
 const { ObjectId } = require("mongodb");
 const session = require("express-session");
 
+router.get("/exchange-rate", async (res) => {
+  try {
+    const response = await axios.get(
+      "https://api.currencyapi.com/v3/latest?apikey=cur_live_QTL3VIjV73OwfCZ6zJpOrLsqKr3ujIT0GtyijZ3f"
+    );
+    const data = response.data;
+    const exchangeRate = data.rates.KZT.value;
+    res.json({ exchangeRate });
+  } catch (error) {
+    console.error("Failed to fetch exchange rate:", error);
+    res.status(500).json({ error: "Failed to fetch exchange rate" });
+  }
+});
+
 let history = [];
 router.use(
   session({
@@ -117,13 +131,12 @@ router.get("/signup", function (req, res) {
 });
 
 router.get("/login", function (req, res) {
-  res.render(path.join(__dirname, "..", "public", "login")); // Используйте res.render вместо res.sendFile
+  res.render(path.join(__dirname, "..", "public", "login"));
 });
 
 router.get("/", function (req, res) {
   const isAuthenticated = !!req.session.user;
   res.render("index", {
-    translations: JSON.stringify(translations),
     isAuthenticated: isAuthenticated,
     history: history,
   });
@@ -136,8 +149,7 @@ router.get("/ping", function (req, res) {
 
 router.get("/weather/:city", function (req, res) {
   const city = req.params.city;
-  const lang = req.query.lang || "en"; // Используйте параметр запроса lang
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=${lang}`; // Используйте lang в URL
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
 
   axios
     .get(url)
@@ -199,11 +211,9 @@ router.get("/BTC/price", function (req, res) {
           .status(500)
           .send({ message: "No response received from the BTC price service" });
       } else {
-        res
-          .status(500)
-          .send({
-            message: "Error in making request to the BTC price service",
-          });
+        res.status(500).send({
+          message: "Error in making request to the BTC price service",
+        });
       }
     });
 });

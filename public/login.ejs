@@ -9,10 +9,9 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
-    <link rel="stylesheet" href="index.css" />
   </head>
   <body class="bg-black">
-    <nav class="bg-amber-900 p-4 text-white">
+    <header class="bg-amber-900 p-4 text-white">
       <div class="flex items-center justify-between flex-wrap">
         <div class="flex items-center text-white mr-6 ml-40 font bold text-xl">
           <a href="/">Weather App Assignment 3</a>
@@ -20,19 +19,19 @@
         <div class="mr-40" id="nav-content">
           <div class="text-sm lg:flex-grow">
             <a
-              href="http://localhost:3000/"
+              href="/"
               class="inline-block mr-4 hover:bg-amber-600 hover:rounded"
             >
               Home
             </a>
             <a
-              href="http://localhost:3000/signup"
+              href="/signup"
               class="inline-block mr-4 hover:bg-amber-600 hover:rounded"
             >
               Signup
             </a>
             <a
-              href="http://localhost:3000/login"
+              href="/login"
               class="inline-block mr-4 hover:bg-amber-600 hover:rounded"
             >
               Login
@@ -40,10 +39,10 @@
           </div>
         </div>
       </div>
-    </nav>
+    </header>
 
     <form
-      class="bg-amber-500 flex justify-center w-[40vw] mx-auto mt-20 p-10"
+      class="bg-amber-500 rounded-xl flex justify-center w-[40vw] mx-auto mt-20 p-10"
       id="login-form"
       action="/login"
       method="POST"
@@ -70,37 +69,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-      document
-        .getElementById("login-form")
-        .addEventListener("submit", function (event) {
-          event.preventDefault();
-
-          const formData = new FormData(this);
-          const userData = {
-            username: document.getElementById("username").value,
-            password: document.getElementById("password").value,
-          };
-
-          fetch("/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username: userData.username,
-              password: userData.password,
-            }),
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              if (data.success) {
-                window.location.href = data.redirectUrl;
-              } else {
-                alert(data.message);
-              }
-            });
-        });
-
       window.onload = function () {
         const isAuthenticated = localStorage.getItem("isAuthenticated");
         if (isAuthenticated) {
