@@ -1,60 +1,125 @@
-# Project README
+# New Weather App
 
-## Overview
+#### since i didn't get any feedback about the first one, i dunno what's the problem was with the first one, so i need to make another one from zero
 
-This project is a web application developed using Node.js and Express, designed to provide information on weather conditions, Bitcoin wallet details, and the current Bitcoin (BTC) price. It utilizes external APIs for fetching this data.
-Home Page
-![headpage](https://github.com/GetLivreru/WeatherApp3/assets/110306539/18a98952-cae1-496e-9c38-4f9a96c69f68)
-SignUp Page
-![signpage](https://github.com/GetLivreru/WeatherApp/assets/110306539/95dcfa17-6be5-4fbd-af22-85c59968778e)
-Admin Page
-![adminpage](https://github.com/GetLivreru/WeatherApp/assets/110306539/591771f2-74f5-48ea-aa6a-f81b7c068f52)
-### Key Features
-1. **Weather Information**: Fetches and displays weather data for a specified city.
-2. **Bitcoin Wallet Info**: Retrieves information about a specified Bitcoin wallet.
-3. **Bitcoin Price**: Displays the current price of Bitcoin in USD.
+## Installation
 
-## Prerequisites
+Clone repo and go
 
-Before you begin, ensure you have met the following requirements:
-- Node.js installed on your system.
-- An internet connection to access external APIs.
+```
+npm i
+```
 
-## APIs , OpenStreetMap APi , Geoapify APi , OpenWeather APi
+then do
 
-The application includes several API endpoints:
+```
+node app.js
+```
 
-1. **OpenWeather API:**
-   - Shows weather information.
- 
-2. **OpenStreet API:**
-   - Shows a world map.
- 
-3. **Geoapify API:**
-   - Shows detailed weather information.
- 
-4. **Bitcoin Wallet Info API:**
-   - Info About Bitcoin.
- 
-5. **Bitcoin Price API:**
-   -  Current info about bin and $.
-   
-## Installation and Setup
+to launch the whole program. Now im not using any collector, so the link to the website is localhost:3000
 
-To get the project up and running on your local machine, follow these steps:
+## APIs used
 
-1. **Clone the Repository**
-   ```sh
-   git clone [repository URL]
-   cd [repository name]```
-2. **Install Dependencies**
-   ```sh
-   npm install
-   ```
-3. **Start the Server**
-   ```sh
-   node app.js
-   ```
-## Admin 
-- Login:1111
-- Password:1111
+### API KEYS COULD GET BANNED SO IT IS MUST HAVE TO CHECK IT ASAP (IM ALREADY GETTING WARNINGS FROM TimeZoneDB AT GMAIL)
+
+1. OpenWeather API
+2. Open-ER API (currency rate)
+3. TimeZoneDB
+
+#### currently NOT banned
+
+## Routes explanation:
+
+```
+/history
+```
+
+to get history
+
+---
+
+```
+/admin
+```
+
+to get to the admin panel
+
+---
+
+```
+/admin/create
+```
+
+to create new user from admin panel and then go back to the /admin
+
+---
+
+```
+/admin/update/:id
+```
+
+takes id and updating users info
+
+---
+
+```
+/admin/delete/:id
+```
+
+deleting user from the database
+
+---
+
+```
+/signup
+```
+
+renders signup page
+
+---
+
+```
+/login
+```
+
+renders login page
+
+---
+
+```
+/ping
+```
+
+pong
+
+---
+
+```
+/weather/:city
+```
+
+takes city and an API key as a param and axiosing the OpenWeather
+
+---
+
+```
+/signup
+```
+
+creates user when info submitted and writes the data to the database
+
+---
+
+```
+/logout
+```
+
+session destroy
+
+---
+
+```
+/auth/status
+```
+
+returning auth status (isAuthenticated bool)
