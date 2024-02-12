@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body class="bg-black">
+    <nav class="bg-amber-900 p-4 text-white">
+      <div class="flex items-center justify-between flex-wrap">
+        <div class="flex items-center text-white mr-6 ml-40 font bold text-xl">
+          <a href="/">Weather App Assignment 3</a>
+        </div>
+        <div class="mr-40" id="nav-content">
+          <div class="text-sm lg:flex-grow">
+            <a
+              href="http://localhost:3000/"
+              class="inline-block mr-4 hover:bg-amber-600 hover:rounded"
+            >
+              Home
+            </a>
+            <a
+              href="http://localhost:3000/signup"
+              class="inline-block mr-4 hover:bg-amber-600 hover:rounded"
+            >
+              Signup
+            </a>
+            <a
+              href="http://localhost:3000/login"
+              class="inline-block mr-4 hover:bg-amber-600 hover:rounded"
+            >
+              Login
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <form
+      class="bg-amber-500 flex justify-center w-[40vw] mx-auto mt-20 p-10"
+      id="login-form"
+      action="/login"
+      method="POST"
+    >
+      <div class="flex flex-col">
+        <h1 class="text-2xl font-bold">Login</h1>
+        <h2 class="">Username:</h2>
+        <input type="text" id="username" name="username" required />
+        <h2>Password:</h2>
+        <input type="password" id="password" name="password" required />
+        <button
+          type="submit"
+          class="bg-amber-700 hover:bg-amber-800 rounded mt-5"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+    <footer class="flex justify-end mx-20">
+      <h1 class="bg-amber-700 px-4 py-2 rounded-xl mb-5 bottom-5">
+        Vadim Valov SE-2203
+      </h1>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(this);
+          const userData = {
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value,
+          };
+
+          fetch("/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: userData.username,
+              password: userData.password,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                window.location.href = data.redirectUrl;
+              } else {
+                alert(data.message);
+              }
+            });
+        });
+
+      window.onload = function () {
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
+        if (isAuthenticated) {
+          document.querySelector('a[href="/login"]').style.display = "none";
+          document.querySelector('a[href="/signup"]').style.display = "none";
+        } else {
+          document.querySelector('a[href="/login"]').style.display = "block";
+          document.querySelector('a[href="/signup"]').style.display = "block";
+        }
+      };
+    </script>
+  </body>
+</html>

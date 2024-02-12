@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <h1 class="font-bold text-2xl m-10">Admin Panel - User List</h1>
+    <div class="flex justify-center">
+      <table class="w-[1000px] mt-10 border-black border-2">
+        <tbody>
+          <% users.forEach(user => { %>
+          <tr>
+            <td><%= user.username %></td>
+            <td><%= user.email %></td>
+            <td><%= user.status %></td>
+            <td>
+              <form action="/admin/makeAdmin/<%= user._id %>" method="post">
+                <button
+                  class="bg-gray-300 hover:bg-gray-400 rounded m-3"
+                  type="submit"
+                >
+                  Make an Admin
+                </button>
+              </form>
+              <form action="/admin/delete/<%= user._id %>" method="post">
+                <button
+                  class="bg-gray-300 hover:bg-gray-400 rounded m-3"
+                  type="submit"
+                >
+                  Delete
+                </button>
+              </form>
+              <form action="/admin/update/<%= user._id %>" method="post">
+                <button
+                  class="bg-gray-300 hover:bg-gray-400 rounded m-3"
+                  type="submit"
+                >
+                  Update
+                </button>
+              </form>
+            </td>
+          </tr>
+          <hr />
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+    <form action="/admin/create" method="post">
+      <button
+        class="bg-gray-300 hover:bg-gray-400 rounded ml-80 mt-5"
+        type="submit"
+      >
+        Create User
+      </button>
+    </form>
+    <script>
+      const form = document.querySelector("form");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const username = formData.get("username");
+        const password = formData.get("password");
+
+        fetch("/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              window.location.href = data.redirectUrl;
+            } else {
+              alert(data.message);
+            }
+          });
+      });
+    </script>
+  </body>
+</html>
